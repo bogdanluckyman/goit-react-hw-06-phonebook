@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { update } from '../redux/filterSlise';
+import { update } from '../redux/filterSlice';
 
 export const SearchBar = () => {
   const filters = useSelector(state => state.filters);

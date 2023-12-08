@@ -13,7 +13,7 @@ const contactsSlice = createSlice({
         };
       },
       reducer(state, action) {
-        state.contacts = [...state.contacts, action.payload];
+        state.contacts.push(action.payload);
       },
       remove(state, action) {
         state.contacts = state.contacts.filter(

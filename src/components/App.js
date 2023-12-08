@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { GlobalStyle } from './GlobalStyled';
 import { ContactForm } from './Form/Form';
 import { ContactList } from './ContactList';
@@ -9,10 +8,6 @@ import { add } from '../redux/contactsSlice';
 export const App = () => {
   const contacts = useSelector(state => state.contacts);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    localStorage.setItem('newContact', JSON.stringify(contacts));
-  }, [contacts]);
 
   const addContact = newContact => {
     const { name, number } = newContact;
