@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { add } from '../redux/contactsSlice';
 
 export const App = () => {
-  const contacts = useSelector(state => state.contacts);
+  const contacts = useSelector(state => state.contacts.contacts);
   const dispatch = useDispatch();
 
   const addContact = newContact => {
