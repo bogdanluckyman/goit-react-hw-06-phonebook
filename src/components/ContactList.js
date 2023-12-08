@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { removeContacts } from '../redux/store';
+import { remove } from '../redux/contactsSlice';
 
 export const ContactList = () => {
   const contacts = useSelector(state => state.contacts);
@@ -19,10 +19,7 @@ export const ContactList = () => {
               <b>
                 {name}: {number}
               </b>
-              <button
-                type="button"
-                onClick={() => dispatch(removeContacts(id))}
-              >
+              <button type="button" onClick={() => dispatch(remove(id))}>
                 Delete
               </button>
             </li>

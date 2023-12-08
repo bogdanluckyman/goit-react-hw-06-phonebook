@@ -4,7 +4,7 @@ import { ContactForm } from './Form/Form';
 import { ContactList } from './ContactList';
 import { SearchBar } from './SearchBar';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContacts } from '../redux/store';
+import { add } from '../redux/contactsSlice';
 
 export const App = () => {
   const contacts = useSelector(state => state.contacts);
@@ -31,7 +31,7 @@ export const App = () => {
       alert('Contact with this name or number already exists.');
       return;
     }
-    dispatch(addContacts(newContact));
+    dispatch(add(newContact));
   };
 
   return (

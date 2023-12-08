@@ -1,53 +1,24 @@
-import { createStore } from 'redux';
-import { devToolsEnhancer } from '@redux-devtools/extension';
-import { nanoid } from 'nanoid';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { filterReducer } from './filterSlise';
+import { contactsReducer } from './contactsSlice';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
-export const initialContacts = () => {
-  const savedContacts = localStorage.getItem('newContact');
-  return savedContacts !== null ? JSON.parse(savedContacts) : [];
-};
-const initialState = {
-  contacts: initialContacts(),
-  filter: '',
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['contacts'],
 };
 
-export const addContacts = newContact => ({
-  type: 'contacts/add',
-  payload: { ...newContact, id: nanoid() },
+const rootReducer = combineReducers({
+  contacts: contactsReducer,
+  filter: filterReducer,
 });
 
-export const removeContacts = contactId => ({
-  type: 'contacts/remove',
-  payload: contactId,
+const persistedRootReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = configureStore({
+  reducer: persistedRootReducer,
 });
 
-export const updateFilters = newValue => ({
-  type: 'filter/newFilter',
-  payload: newValue,
-});
-
-const rootReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case 'contacts/add':
-      return {
-        ...state,
-        contacts: [...state.contacts, action.payload],
-      };
-    case 'contacts/remove': {
-      return {
-        ...state,
-        contacts: state.contacts.filter(item => item.id !== action.payload),
-      };
-    }
-    case 'filter/newFilter': {
-      return {
-        ...state,
-        filter: action.payload,
-      };
-    }
-    default:
-      return state;
-  }
-};
-const enhancer = devToolsEnhancer();
-export const store = createStore(rootReducer, enhancer);
+export const persistor = persistStore(store);

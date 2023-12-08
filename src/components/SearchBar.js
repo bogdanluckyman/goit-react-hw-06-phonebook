@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { updateFilters } from '../redux/store';
+import { update } from '../redux/filterSlise';
 
 export const SearchBar = () => {
   const filters = useSelector(state => state.filters);
@@ -10,7 +10,7 @@ export const SearchBar = () => {
       <input
         type="text"
         value={filters}
-        onChange={evt => dispatch(updateFilters(evt.target.value))}
+        onChange={evt => dispatch(update(evt.target.value))}
       />
     </div>
   );
