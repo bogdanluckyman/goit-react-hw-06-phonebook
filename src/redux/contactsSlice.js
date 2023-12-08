@@ -13,6 +13,7 @@ const contactsSlice = createSlice({
         };
       },
       reducer(state, action) {
+        console.log();
         state.contacts.push(action.payload);
       },
       remove(state, action) {
