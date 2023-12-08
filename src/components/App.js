@@ -1,18 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { GlobalStyle } from './GlobalStyled';
 import { ContactForm } from './Form/Form';
 import { ContactList } from './ContactList';
-import { nanoid } from 'nanoid';
 import { SearchBar } from './SearchBar';
-
-const initialContacts = () => {
-  const savedContacts = localStorage.getItem('newContact');
-  return savedContacts !== null ? JSON.parse(savedContacts) : [];
-};
+import { useDispatch, useSelector } from 'react-redux';
+import { addContacts } from '../redux/store';
 
 export const App = () => {
-  const [contacts, setContacts] = useState(initialContacts());
-  const [filter, setFilter] = useState('');
+  const contacts = useSelector(state => state.contacts);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     localStorage.setItem('newContact', JSON.stringify(contacts));
@@ -35,36 +31,16 @@ export const App = () => {
       alert('Contact with this name or number already exists.');
       return;
     }
-    const contactPerson = {
-      ...newContact,
-      id: nanoid(),
-    };
-
-    setContacts(prevContacts => [...prevContacts, contactPerson]);
+    dispatch(addContacts(newContact));
   };
-
-  const updateFilter = newValue => setFilter(newValue);
-
-  const removeContact = contactId => {
-    setContacts(prevContacts =>
-      prevContacts.filter(item => item.id !== contactId)
-    );
-  };
-
-  const visibleContact = contacts.filter(item => {
-    const trueContact = item.name.toLowerCase().includes(filter.toLowerCase());
-    return trueContact;
-  });
 
   return (
     <div>
       <h1>Phonebook</h1>
       <ContactForm addContact={addContact} />
       <h2>Contacts</h2>
-      <SearchBar value={filter} updateFilter={updateFilter} />
-      {contacts.length > 0 && (
-        <ContactList contacts={visibleContact} removeContact={removeContact} />
-      )}
+      <SearchBar />
+      {contacts.length > 0 && <ContactList />}
       <GlobalStyle />
     </div>
   );
