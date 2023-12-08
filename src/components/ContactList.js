@@ -5,7 +5,6 @@ export const ContactList = () => {
   const contacts = useSelector(state => state.contacts.contacts);
   const filter = useSelector(state => state.filter);
   const dispatch = useDispatch();
-
   const visibleContact = contacts.filter(item => {
     const trueContact = item.name.toLowerCase().includes(filter.toLowerCase());
     return trueContact;

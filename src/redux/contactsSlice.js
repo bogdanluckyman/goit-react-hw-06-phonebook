@@ -7,13 +7,12 @@ const contactsSlice = createSlice({
   reducers: {
     add: {
       prepare(value) {
+        const id = nanoid();
         return {
-          payload: value,
-          id: nanoid(),
+          payload: { ...value, id },
         };
       },
       reducer(state, action) {
-        console.log(state);
         state.contacts.push(action.payload);
       },
     },
